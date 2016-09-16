@@ -42,7 +42,7 @@ public class RestaurantListActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         toolbar.setTitle(getTitle());
 
-        Log.d("TEst", "test");
+        Log.d("TEst", "test2");
 
         View recyclerView = findViewById(R.id.restaurant_list);
         assert recyclerView != null;
