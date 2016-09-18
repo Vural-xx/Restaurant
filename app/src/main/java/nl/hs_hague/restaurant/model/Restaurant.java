@@ -1,9 +1,11 @@
 package nl.hs_hague.restaurant.model;
 
+import java.io.Serializable;
+
 /**
  * Created by vural on 16.09.16.
  */
-public class Restaurant {
+public class Restaurant implements Serializable {
     private int id;
     private String name;
     private String description;
@@ -11,6 +13,11 @@ public class Restaurant {
     private String street;
     private String zip;
     private String image;
+
+    public Restaurant(int id, String name){
+        this.id = id;
+        this.name = name;
+    }
 
     public int getId() {
         return id;

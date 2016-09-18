@@ -1,20 +1,18 @@
 package nl.hs_hague.restaurant;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
+import android.widget.AdapterView;
+import android.widget.ListView;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import nl.hs_hague.restaurant.dummy.DummyContent;
+import nl.hs_hague.restaurant.adapter.RestaurantAdapter;
+import nl.hs_hague.restaurant.model.Restaurant;
 
 /**
  * An activity representing a list of Restaurants. This activity
@@ -41,11 +39,6 @@ public class RestaurantListActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         toolbar.setTitle(getTitle());
 
-
-        View recyclerView = findViewById(R.id.restaurant_list);
-        assert recyclerView != null;
-        setupRecyclerView((RecyclerView) recyclerView);
-
         if (findViewById(R.id.restaurant_detail_container) != null) {
             // The detail container view will be present only in the
             // large-screen layouts (res/values-w900dp).
@@ -53,78 +46,39 @@ public class RestaurantListActivity extends AppCompatActivity {
             // activity should be in two-pane mode.
             mTwoPane = true;
         }
-    }
 
-    private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
-        recyclerView.setAdapter(new SimpleItemRecyclerViewAdapter(DummyContent.ITEMS));
-    }
+        ListView lvRestaurants = (ListView) findViewById(R.id.lvRestaurants);
+        lvRestaurants.setAdapter(new RestaurantAdapter(this, R.layout.restaurant_list_content, generateDummyData()));
 
-    public class SimpleItemRecyclerViewAdapter
-            extends RecyclerView.Adapter<SimpleItemRecyclerViewAdapter.ViewHolder> {
-
-        private final List<DummyContent.DummyItem> mValues;
-
-        public SimpleItemRecyclerViewAdapter(List<DummyContent.DummyItem> items) {
-            mValues = items;
-        }
-
-        @Override
-        public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            View view = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.restaurant_list_content, parent, false);
-            return new ViewHolder(view);
-        }
-
-        @Override
-        public void onBindViewHolder(final ViewHolder holder, int position) {
-            holder.mItem = mValues.get(position);
-            holder.mIdView.setText(mValues.get(position).id);
-            holder.mContentView.setText(mValues.get(position).content);
-
-            holder.mView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (mTwoPane) {
-                        Bundle arguments = new Bundle();
-                        arguments.putString(RestaurantDetailFragment.ARG_ITEM_ID, holder.mItem.id);
-                        RestaurantDetailFragment fragment = new RestaurantDetailFragment();
-                        fragment.setArguments(arguments);
-                        getSupportFragmentManager().beginTransaction()
-                                .replace(R.id.restaurant_detail_container, fragment)
-                                .commit();
-                    } else {
-                        Context context = v.getContext();
-                        Intent intent = new Intent(context, RestaurantDetailActivity.class);
-                        intent.putExtra(RestaurantDetailFragment.ARG_ITEM_ID, holder.mItem.id);
-
-                        context.startActivity(intent);
-                    }
-                }
-            });
-        }
-
-        @Override
-        public int getItemCount() {
-            return mValues.size();
-        }
-
-        public class ViewHolder extends RecyclerView.ViewHolder {
-            public final View mView;
-            public final TextView mIdView;
-            public final TextView mContentView;
-            public DummyContent.DummyItem mItem;
-
-            public ViewHolder(View view) {
-                super(view);
-                mView = view;
-                mIdView = (TextView) view.findViewById(R.id.id);
-                mContentView = (TextView) view.findViewById(R.id.content);
-            }
-
+        lvRestaurants.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public String toString() {
-                return super.toString() + " '" + mContentView.getText() + "'";
+            public void onItemClick(AdapterView<?> parent, View view,
+                                    int position, long id) {
+                Restaurant restaurant = (Restaurant) parent.getItemAtPosition(position);
+                if (mTwoPane) {
+                    RestaurantDetailFragment fragment = new RestaurantDetailFragment();
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable(RestaurantDetailFragment.ARG_ITEM,restaurant);
+                    fragment.setArguments(bundle);
+                    getSupportFragmentManager().beginTransaction()
+                            .replace(R.id.restaurant_detail_container, fragment)
+                            .commit();
+
+                } else {
+                    // Beim klciken auf das Listenelement wird die neue Activity geöffnet
+                    Intent intent = new Intent(getApplicationContext(), RestaurantDetailActivity.class);
+                    intent.putExtra(RestaurantDetailFragment.ARG_ITEM, restaurant);
+                    startActivity(intent);
+                }
             }
-        }
+        });
     }
+
+    public List<Restaurant> generateDummyData(){
+        List<Restaurant> restaurants = new ArrayList<Restaurant>();
+        restaurants.add(new Restaurant(1, "Siezo"));
+        restaurants.add(new Restaurant(2, "KFC"));
+        return  restaurants;
+    }
+
 }

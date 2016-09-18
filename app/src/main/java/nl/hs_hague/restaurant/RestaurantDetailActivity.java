@@ -43,8 +43,7 @@ public class RestaurantDetailActivity extends AppCompatActivity {
             // Create the detail fragment and add it to the activity
             // using a fragment transaction.
             Bundle arguments = new Bundle();
-            arguments.putString(RestaurantDetailFragment.ARG_ITEM_ID,
-                    getIntent().getStringExtra(RestaurantDetailFragment.ARG_ITEM_ID));
+            arguments.putSerializable(RestaurantDetailFragment.ARG_ITEM, getIntent().getSerializableExtra(RestaurantDetailFragment.ARG_ITEM));
             RestaurantDetailFragment fragment = new RestaurantDetailFragment();
             fragment.setArguments(arguments);
             getSupportFragmentManager().beginTransaction()
