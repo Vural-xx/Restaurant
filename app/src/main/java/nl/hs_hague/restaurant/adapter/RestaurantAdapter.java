@@ -22,7 +22,7 @@ public class RestaurantAdapter extends ArrayAdapter<Restaurant> {
     private List<Restaurant> restaurants;
 
     public RestaurantAdapter(Context context, int resource, List<Restaurant> roomInfos) {
-        super(context, R.layout.restaurant_list_content, roomInfos);
+        super(context, resource, roomInfos);
         inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         this.resource = resource;
         this.restaurants = roomInfos;

@@ -26,6 +26,12 @@ public class RestaurantDetailFragment extends Fragment {
 
     private Restaurant currentRestaurant;
 
+    TextView tvRestaurantName;
+    TextView tvRestaurantDescription;
+    TextView tvRestaurantStreet;
+    TextView tvRestaurantZip;
+    TextView tvRestaurantPlace;
+
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
@@ -43,6 +49,7 @@ public class RestaurantDetailFragment extends Fragment {
             // to load content from a content provider.
             currentRestaurant = (Restaurant) getArguments().getSerializable(ARG_ITEM);
 
+
             Activity activity = this.getActivity();
             CollapsingToolbarLayout appBarLayout = (CollapsingToolbarLayout) activity.findViewById(R.id.toolbar_layout);
             if (appBarLayout != null) {
@@ -58,7 +65,25 @@ public class RestaurantDetailFragment extends Fragment {
 
         // Show the dummy content as text in a TextView.
         if (currentRestaurant != null) {
-            ((TextView) rootView.findViewById(R.id.restaurant_detail)).setText(currentRestaurant.getName());
+            tvRestaurantName = (TextView) rootView.findViewById(R.id.restaurant_name);
+            tvRestaurantDescription = (TextView) rootView.findViewById(R.id.restaurant_description);
+            tvRestaurantStreet = (TextView) rootView.findViewById(R.id.restaurant_street);
+            tvRestaurantZip = (TextView) rootView.findViewById(R.id.restaurant_zip);
+            tvRestaurantPlace = (TextView) rootView.findViewById(R.id.restaurant_place);
+
+            tvRestaurantName.setText(currentRestaurant.getName());
+            if(currentRestaurant.getDescription() != null){
+                tvRestaurantDescription.setText(currentRestaurant.getDescription());
+            }
+            if(currentRestaurant.getStreet() != null){
+                tvRestaurantStreet.setText(currentRestaurant.getStreet());
+            }
+            if(currentRestaurant.getZip() != null){
+                tvRestaurantZip.setText(currentRestaurant.getZip());
+            }
+            if(currentRestaurant.getPlace() != null){
+                tvRestaurantPlace.setText(currentRestaurant.getPlace());
+            }
         }
 
         return rootView;

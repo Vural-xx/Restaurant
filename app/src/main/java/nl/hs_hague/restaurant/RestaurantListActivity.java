@@ -80,8 +80,8 @@ public class RestaurantListActivity extends AppCompatActivity {
 
     public List<Restaurant> generateDummyData(){
         List<Restaurant> restaurants = new ArrayList<Restaurant>();
-        restaurants.add(new Restaurant(1, "Siezo"));
-        restaurants.add(new Restaurant(2, "KFC"));
+        restaurants.add(new Restaurant(1, "Siezo", "Tasty", "Street 123", "123456","Place", null));
+        restaurants.add(new Restaurant(2, "KFC", "Tasty", "Street 123", "123456","Place", null));
         return  restaurants;
     }
 

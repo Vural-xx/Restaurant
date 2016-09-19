@@ -18,6 +18,15 @@ public class Restaurant implements Serializable {
         this.id = id;
         this.name = name;
     }
+    public Restaurant(int id, String name, String description, String place, String street, String zip, String image){
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.place = place;
+        this.street = street;
+        this.zip = zip;
+        this.image = image;
+    }
 
     public int getId() {
         return id;
