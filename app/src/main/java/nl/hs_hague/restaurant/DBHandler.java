@@ -1,4 +1,4 @@
-package com.example.alex.assigment3;
+package nl.hs_hague.restaurant;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;

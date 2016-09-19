@@ -1,12 +1,8 @@
-package com.example.alex.assigment3;
+package nl.hs_hague.restaurant;
 
-import android.content.ContentValues;
+import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.view.View;
-import android.widget.Toast;
 
 import java.util.Vector;
 /*
@@ -20,8 +16,8 @@ I did not handle the methods to convert the image into bytes or something like t
 public class DBMaster{
 
 /*The restaurant must have a unique name (PRIMARY KEY), so you can no register two restaurants with the same name*/
-    public void register(String name, String street, String place, String ZIP, String path, String comments) {
-        DBHandler admin = new DBHandler(this,"admin", null, 1);
+    public void register(String name, String street, String place, String ZIP, String path, String comments, Context context) {
+        DBHandler admin = new DBHandler(context,"admin", null, 1);
         SQLiteDatabase bd = admin.getWritableDatabase();
         try {
             if(!(name.equals("Name:") || name.equals("name:") || (name.length()==0)) &&!(street.equals("Street:") && street.equals("street:") || (street.length()==0)) && !(place.equals("Place:") || place.equals("place:")|| (place.length()==0)) && !(ZIP.equals("ZIP:") || ZIP.equals("zip:")|| (ZIP.length()==0)) && !(path.equals("Path:") || path.equals("path:") || (path.length()==0)) && !(comments.equals("Comments:") || comments.equals("comments:") || (comments.length()==0))) {
@@ -46,8 +42,8 @@ public class DBMaster{
     }
 	
 /*If you want to delete a restaurant you only need to send the name*/	
-    public void delete(String name) {
-        DBHandler admin = new DBHandler(this,"admin", null, 1);
+    public void delete(String name, Context context) {
+      DBHandler admin = new DBHandler(context,"admin", null, 1);
         SQLiteDatabase bd = admin.getWritableDatabase();
         try {
             bd.execSQL("DELETE FROM restaurants WHERE name = '" + name + "'");
@@ -59,8 +55,8 @@ public class DBMaster{
         }
     }
 /*This a particular search, like in the delete method you only need to send the name of the restaurant*/	
-    public void search(String naam) {
-        DBHandler admin = new DBHandler(this,"admin", null, 1);
+    public void search(String naam, Context context) {
+        DBHandler admin = new DBHandler(context,"admin", null, 1);
         Vector result = new Vector();
         String conv="";
         String results[];
@@ -73,12 +69,6 @@ public class DBMaster{
             results = new String[12];
             conv = result.firstElement().toString();
             results = conv.split("-.-");
-            name.setText(results[0]);
-            street.setText(results[1]);
-            place.setText(results[2]);
-            zip.setText(results[3]);
-            path.setText(results[4]);
-            comments.setText(results[5]);
             cursor.close();
             bd.close();
             System.out.println("I found the restaurant");
@@ -88,8 +78,8 @@ public class DBMaster{
         }
     }
 	/*You need to send all the info about a restaurant when you update it.*/
-    public void update(String name,String street, String place, String ZIP, String path, String comments) {
-        DBHandler admin = new DBHandler(this,"admin", null, 1);
+    public void update(String name,String street, String place, String ZIP, String path, String comments, Context context) {
+        DBHandler admin = new DBHandler(context,"admin", null, 1);
         SQLiteDatabase bd = admin.getWritableDatabase();
         try {
             bd.execSQL("UPDATE restaurants SET street ='"+street+"',place ='"+place+"', zip ='"+ZIP+"', image ='"+path+"', desc ='"+comments+"' WHERE name ='"+name+"'");
@@ -101,8 +91,8 @@ public class DBMaster{
         }
     }
 	/*This method must be called when we start the app, in order to show all the restaurants we have, just add them to the list view*/
-    public void generalsearch() {
-        DBHandler admin = new DBHandler(this,"admin", null, 1);
+    public void generalsearch(Context context) {
+        DBHandler admin = new DBHandler(context,"admin", null, 1);
         Vector result1 = new Vector();
         String conv="";
         String results[];
