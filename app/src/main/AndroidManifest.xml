@@ -27,7 +27,8 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="nl.hs_hague.restaurant.RestaurantListActivity" />
         </activity>
-        <activity android:name=".Dialog_add"></activity>
+        <activity android:name=".Dialog_add" />
+        <activity android:name=".Dialog_update"></activity>
     </application>
 
 </manifest>

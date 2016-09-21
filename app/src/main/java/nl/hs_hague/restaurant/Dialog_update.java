@@ -13,7 +13,7 @@ import android.widget.EditText;
 
 import nl.hs_hague.restaurant.model.Restaurant;
 
-public class Dialog_add extends DialogFragment {
+public class Dialog_update extends DialogFragment {
 
 
 
@@ -49,11 +49,11 @@ public class Dialog_add extends DialogFragment {
 
                         Restaurant myRestaurant = new Restaurant(1, name, street, place, zip, path, comments);
                         DBMaster db = new DBMaster();
-                        db.register(myRestaurant, getContext());
+                        db.update(myRestaurant, getContext());
 
 
                         ToasterClass toaster = new ToasterClass(getContext());
-                        toaster.addedToast(name, street, place, zip, path, comments);
+                        toaster.updatedToast(name, street, place, zip, path, comments);
 
 
                     }

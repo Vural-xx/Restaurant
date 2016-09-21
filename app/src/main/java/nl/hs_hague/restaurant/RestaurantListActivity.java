@@ -2,6 +2,7 @@ package nl.hs_hague.restaurant;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -109,7 +110,9 @@ public class RestaurantListActivity extends AppCompatActivity {
             //DBMaster dbMaster = new DBMaster();
             //dbMaster.register(generateDummyData().get(0),this);
            // dbMaster.generalsearch(this);
-            Toast.makeText(this,"Menü clicked", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(this,"Menü clicked", Toast.LENGTH_SHORT).show();
+            DialogFragment newFragment = new Dialog_add();
+            newFragment.show(getSupportFragmentManager(), "i don't know what is this string parameter for.");
         }
         return super.onOptionsItemSelected(item);
     }
