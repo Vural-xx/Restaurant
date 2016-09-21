@@ -18,17 +18,7 @@
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize" >
-
-            <EditText
-                android:id="@+id/mysearch"
-                android:singleLine="true"
-                android:layout_width="300dp"
-                android:layout_height="match_parent" />
-
-            </android.support.v7.widget.Toolbar>
-
-
+            android:layout_height="?attr/actionBarSize" />
 
     </android.support.design.widget.AppBarLayout>
 

@@ -37,34 +37,34 @@ public class RestaurantAdapter extends ArrayAdapter<Restaurant> {
         }
         TextView tvRestaurantName = (TextView) convertView.findViewById(R.id.restaurant_name);
         final Restaurant currentRestaurant = (Restaurant) restaurants.get(position);
-        tvRestaurantName.setText(currentRestaurant.getName());
+        if (currentRestaurant!= null){
+            tvRestaurantName.setText(currentRestaurant.getName());
 
-        ImageView trashCan=(ImageView) convertView.findViewById(R.id.lvImage2);
-        trashCan.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                final Context context = view.getContext();
-                new AlertDialog.Builder(context)
-                        .setTitle("Delete Restaurant")
-                        .setMessage("Do you really want to delete this Item?")
-                        .setIcon(android.R.drawable.ic_dialog_alert)
-                        .setPositiveButton("Yes", new DialogInterface.OnClickListener()  //delete item
-                        {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                int position =restaurants.indexOf(currentRestaurant);
-                                restaurants.remove(position);
-                                notifyDataSetChanged();
-                                RestaurantListActivity.dbmaster.delete(currentRestaurant.getName(),context);
-                            }
+            ImageView trashCan=(ImageView) convertView.findViewById(R.id.lvImage2);
+            trashCan.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    final Context context = view.getContext();
+                    new AlertDialog.Builder(context)
+                            .setTitle("Delete Restaurant")
+                            .setMessage("Do you really want to delete this Item?")
+                            .setIcon(android.R.drawable.ic_dialog_alert)
+                            .setPositiveButton("Yes", new DialogInterface.OnClickListener()  //delete item
+                            {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    int position =restaurants.indexOf(currentRestaurant);
+                                    restaurants.remove(position);
+                                    notifyDataSetChanged();
+                                    RestaurantListActivity.dbmaster.delete(currentRestaurant.getName(),context);
+                                }
 
-                        })
-                        .setNegativeButton("No", null)
-                        .show();
-            }
-        });
-
-
+                            })
+                            .setNegativeButton("No", null)
+                            .show();
+                }
+            });
+        }
         notifyDataSetChanged();
         return convertView;
     }

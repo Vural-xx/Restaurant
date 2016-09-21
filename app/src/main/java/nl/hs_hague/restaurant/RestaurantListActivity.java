@@ -6,12 +6,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -71,33 +71,24 @@ public class RestaurantListActivity extends AppCompatActivity {
         });
 
         Intent searchIntent = getIntent();
-        if(Intent.ACTION_SEARCH.equals(searchIntent.getAction())){
+        if(Intent.ACTION_SEARCH.equals(searchIntent.getAction())) {
             String query = searchIntent.getStringExtra(SearchManager.QUERY);
-            Toast.makeText(this,query, Toast.LENGTH_SHORT).show();
-        }
-
-        EditText searchText = (EditText) findViewById(R.id.mysearch);
-        searchText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if(!hasFocus){
-                    EditText editText = (EditText) v;
-                    List<Restaurant> restaurants = new ArrayList<Restaurant>();
-                    if(editText.getText().toString().equals("")){
-                        restaurants = dbmaster.generalsearch(context);
-                    }else{
-                        restaurants.add(dbmaster.search(editText.getText().toString(),context));
-                    }
-
-                    lvRestaurants.setAdapter(new RestaurantAdapter(context, R.layout.restaurant_list_content, restaurants));
-                }
+            List<Restaurant> restaurants = new ArrayList<Restaurant>();
+            if(query.equals("")){
+                restaurants = dbmaster.generalsearch(context);
+            }else{
+                restaurants.add(dbmaster.search(query,context));
             }
-        });
+            lvRestaurants.setAdapter(new RestaurantAdapter(context, R.layout.restaurant_list_content, restaurants));
+        }
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu,menu);
+        SearchView searchView = (SearchView) menu.findItem(R.id.menu_search).getActionView();
+        SearchManager searchManager = (SearchManager) getSystemService(SEARCH_SERVICE);
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
         return super.onCreateOptionsMenu(menu);
     }
 
