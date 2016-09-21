@@ -7,7 +7,9 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import nl.hs_hague.restaurant.model.Restaurant;
 
@@ -85,6 +87,14 @@ public class RestaurantDetailFragment extends Fragment {
                 tvRestaurantPlace.setText(currentRestaurant.getPlace());
             }
         }
+
+        Button editButton =(Button) rootView.findViewById(R.id.edit_restaurant);
+        editButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(v.getContext(), "Edit Button clicked", Toast.LENGTH_SHORT).show();;
+            }
+        });
 
         return rootView;
     }
