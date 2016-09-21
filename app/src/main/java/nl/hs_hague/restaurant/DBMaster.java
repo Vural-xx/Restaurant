@@ -5,6 +5,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import java.util.Vector;
+
+import nl.hs_hague.restaurant.model.Restaurant;
 /*
 This is the class with the methods to handle the DB.
 I suggest that when we need to delete o modify a restaurant we must make a search, to make it easier
@@ -16,10 +18,16 @@ I did not handle the methods to convert the image into bytes or something like t
 public class DBMaster{
 
 /*The restaurant must have a unique name (PRIMARY KEY), so you can no register two restaurants with the same name*/
-    public void register(String name, String street, String place, String ZIP, String path, String comments, Context context) {
+    public void register(Restaurant restaurant, Context context) {
         DBHandler admin = new DBHandler(context,"admin", null, 1);
         SQLiteDatabase bd = admin.getWritableDatabase();
         try {
+            String name = restaurant.getName();
+            String street = restaurant.getStreet();
+            String place = restaurant.getPlace();
+            String ZIP = restaurant.getZip();
+            String path = restaurant.getImage();
+            String comments = restaurant.getDescription();
             if(!(name.equals("Name:") || name.equals("name:") || (name.length()==0)) &&!(street.equals("Street:") && street.equals("street:") || (street.length()==0)) && !(place.equals("Place:") || place.equals("place:")|| (place.length()==0)) && !(ZIP.equals("ZIP:") || ZIP.equals("zip:")|| (ZIP.length()==0)) && !(path.equals("Path:") || path.equals("path:") || (path.length()==0)) && !(comments.equals("Comments:") || comments.equals("comments:") || (comments.length()==0))) {
                 bd.execSQL("INSERT INTO restaurants (name,street,place,zip,image,desc)VALUES ('" + name + "','" + street + "', '" + place + "','" + ZIP + "','" + path + "','" + comments + "')");
                 bd.close();                
@@ -37,6 +45,7 @@ public class DBMaster{
             else
             {
                 System.out.println("There was a problem");
+                e.printStackTrace();
             }
         }
     }
@@ -78,10 +87,16 @@ public class DBMaster{
         }
     }
 	/*You need to send all the info about a restaurant when you update it.*/
-    public void update(String name,String street, String place, String ZIP, String path, String comments, Context context) {
+    public void update(Restaurant restaurant, Context context) {
         DBHandler admin = new DBHandler(context,"admin", null, 1);
         SQLiteDatabase bd = admin.getWritableDatabase();
         try {
+            String name = restaurant.getName();
+            String street = restaurant.getStreet();
+            String place = restaurant.getPlace();
+            String ZIP = restaurant.getZip();
+            String path = restaurant.getImage();
+            String comments = restaurant.getDescription();
             bd.execSQL("UPDATE restaurants SET street ='"+street+"',place ='"+place+"', zip ='"+ZIP+"', image ='"+path+"', desc ='"+comments+"' WHERE name ='"+name+"'");
             bd.close();
             System.out.println("The restaurant was successfully updated");

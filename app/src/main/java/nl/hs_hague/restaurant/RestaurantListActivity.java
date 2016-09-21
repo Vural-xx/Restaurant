@@ -106,6 +106,9 @@ public class RestaurantListActivity extends AppCompatActivity {
             return true;
         }else if (id == R.id.action_create){
             // Here comes create Dialog
+            //DBMaster dbMaster = new DBMaster();
+            //dbMaster.register(generateDummyData().get(0),this);
+           // dbMaster.generalsearch(this);
             Toast.makeText(this,"Menü clicked", Toast.LENGTH_SHORT).show();
         }
         return super.onOptionsItemSelected(item);
