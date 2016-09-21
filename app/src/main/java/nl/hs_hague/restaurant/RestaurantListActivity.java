@@ -1,17 +1,15 @@
 package nl.hs_hague.restaurant;
 
 import android.app.SearchManager;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.SearchView;
-import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -23,6 +21,7 @@ public class RestaurantListActivity extends AppCompatActivity {
     private boolean mTwoPane;
 
     public static final DBMaster dbmaster = new DBMaster();
+    private ListView lvRestaurants;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,11 +32,8 @@ public class RestaurantListActivity extends AppCompatActivity {
             mTwoPane = true;
         }
 
-     dbmaster.register(new Restaurant(1,"rest1","{ñlcmpwdc","place","street","zip code","wldmdc"),this);
-        dbmaster.register(new Restaurant(2,"cousine","{ñlcmpwdc","place","street","zip code","wldmdc"),this);
-        dbmaster.register(new Restaurant(3,"template","{ñlcmpwdc","place","street","zip code","wldmdc"),this);
 
-        ListView lvRestaurants = (ListView) findViewById(R.id.lvRestaurants);
+        lvRestaurants = (ListView) findViewById(R.id.lvRestaurants);
         lvRestaurants.setAdapter(new RestaurantAdapter(this, R.layout.restaurant_list_content, dbmaster.generalsearch(this)));
 
         lvRestaurants.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -62,27 +58,29 @@ public class RestaurantListActivity extends AppCompatActivity {
                 }
             }
         });
+
+        Intent searchIntent = getIntent();
+        if(Intent.ACTION_SEARCH.equals(searchIntent.getAction())){
+            String query = searchIntent.getStringExtra(SearchManager.QUERY);
+            Toast.makeText(this,query, Toast.LENGTH_SHORT).show();
+        }
+        EditText searchText = (EditText) findViewById(R.id.mysearch);
+        searchText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(!hasFocus){
+                    EditText editText = (EditText) v;
+                    lvRestaurants.getAdapter()
+                    Toast.makeText(getApplicationContext(), editText.getText(), Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
-    
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu,menu);
 
-        // Associate searchable configuration with the SearchView
-        final SearchView searchView= (SearchView) menu.findItem(R.id.mysearch).getActionView();
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener( ) {
-            @Override
-            public boolean   onQueryTextChange( String newText ) {//
-                return true;
-            }
-
-            @Override
-            public boolean   onQueryTextSubmit(String query) {
-               query= new String ((String) searchView.getQuery());
-                Toast.makeText(getApplicationContext(),query,Toast.LENGTH_SHORT).show();
-               return true;
-            }
-        });
 
         return super.onCreateOptionsMenu(menu);
     }
@@ -109,4 +107,5 @@ public class RestaurantListActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
 }
