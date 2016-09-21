@@ -75,5 +75,6 @@ public class RestaurantAdapter extends ArrayAdapter<Restaurant> {
 
     public void setRestaurants(List<Restaurant> restaurants) {
         this.restaurants = restaurants;
+        notifyDataSetChanged();
     }
 }

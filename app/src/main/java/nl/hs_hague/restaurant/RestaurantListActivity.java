@@ -1,6 +1,7 @@
 package nl.hs_hague.restaurant;
 
 import android.app.SearchManager;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
@@ -13,6 +14,9 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import nl.hs_hague.restaurant.adapter.RestaurantAdapter;
 import nl.hs_hague.restaurant.model.Restaurant;
 
@@ -22,6 +26,8 @@ public class RestaurantListActivity extends AppCompatActivity {
 
     public static final DBMaster dbmaster = new DBMaster();
     private ListView lvRestaurants;
+
+    private Context context = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +41,7 @@ public class RestaurantListActivity extends AppCompatActivity {
 
         lvRestaurants = (ListView) findViewById(R.id.lvRestaurants);
         lvRestaurants.setAdapter(new RestaurantAdapter(this, R.layout.restaurant_list_content, dbmaster.generalsearch(this)));
+        context = this;
 
         lvRestaurants.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -70,8 +77,14 @@ public class RestaurantListActivity extends AppCompatActivity {
             public void onFocusChange(View v, boolean hasFocus) {
                 if(!hasFocus){
                     EditText editText = (EditText) v;
-                    lvRestaurants.getAdapter()
-                    Toast.makeText(getApplicationContext(), editText.getText(), Toast.LENGTH_SHORT).show();
+                    List<Restaurant> restaurants = new ArrayList<Restaurant>();
+                    if(editText.getText().toString().equals("")){
+                        restaurants = dbmaster.generalsearch(context);
+                    }else{
+                        restaurants.add(dbmaster.search(editText.getText().toString(),context));
+                    }
+
+                    lvRestaurants.setAdapter(new RestaurantAdapter(context, R.layout.restaurant_list_content, restaurants));
                 }
             }
         });
