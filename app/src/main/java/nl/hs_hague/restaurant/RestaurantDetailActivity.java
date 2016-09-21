@@ -24,6 +24,7 @@ public class RestaurantDetailActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
 
+
         // Show the Up button in the action bar.
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {

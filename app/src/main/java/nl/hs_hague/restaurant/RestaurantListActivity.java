@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -38,6 +39,9 @@ public class RestaurantListActivity extends AppCompatActivity {
             mTwoPane = true;
         }
 
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitle("");
+        setSupportActionBar(toolbar);
 
         lvRestaurants = (ListView) findViewById(R.id.lvRestaurants);
         lvRestaurants.setAdapter(new RestaurantAdapter(this, R.layout.restaurant_list_content, dbmaster.generalsearch(this)));
@@ -71,6 +75,7 @@ public class RestaurantListActivity extends AppCompatActivity {
             String query = searchIntent.getStringExtra(SearchManager.QUERY);
             Toast.makeText(this,query, Toast.LENGTH_SHORT).show();
         }
+
         EditText searchText = (EditText) findViewById(R.id.mysearch);
         searchText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
@@ -93,8 +98,6 @@ public class RestaurantListActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu,menu);
-
-
         return super.onCreateOptionsMenu(menu);
     }
 
