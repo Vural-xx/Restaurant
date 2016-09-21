@@ -12,9 +12,6 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import nl.hs_hague.restaurant.adapter.RestaurantAdapter;
 import nl.hs_hague.restaurant.model.Restaurant;
 
@@ -34,6 +31,8 @@ public class RestaurantListActivity extends AppCompatActivity {
      */
     private boolean mTwoPane;
 
+    public static final DBMaster dbmaster = new DBMaster();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,7 +51,7 @@ public class RestaurantListActivity extends AppCompatActivity {
         }
 
         ListView lvRestaurants = (ListView) findViewById(R.id.lvRestaurants);
-        lvRestaurants.setAdapter(new RestaurantAdapter(this, R.layout.restaurant_list_content, generateDummyData()));
+        lvRestaurants.setAdapter(new RestaurantAdapter(this, R.layout.restaurant_list_content, dbmaster.generalsearch(this)));
 
         lvRestaurants.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -77,14 +76,7 @@ public class RestaurantListActivity extends AppCompatActivity {
             }
         });
     }
-
-    public List<Restaurant> generateDummyData(){
-        List<Restaurant> restaurants = new ArrayList<Restaurant>();
-        restaurants.add(new Restaurant(1, "Siezo", "Tasty", "Street 123", "123456","Place", null));
-        restaurants.add(new Restaurant(2, "KFC", "Tasty", "Street 123", "123456","Place", null));
-        return  restaurants;
-    }
-
+    
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu,menu);

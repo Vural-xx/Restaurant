@@ -13,6 +13,7 @@ import android.widget.TextView;
 import java.util.List;
 
 import nl.hs_hague.restaurant.R;
+import nl.hs_hague.restaurant.RestaurantListActivity;
 import nl.hs_hague.restaurant.model.Restaurant;
 
 public class RestaurantAdapter extends ArrayAdapter<Restaurant> {
@@ -42,7 +43,7 @@ public class RestaurantAdapter extends ArrayAdapter<Restaurant> {
         trashCan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Context context = view.getContext();
+                final Context context = view.getContext();
                 new AlertDialog.Builder(context)
                         .setTitle("Delete Restaurant")
                         .setMessage("Do you really want to delete this Item?")
@@ -54,6 +55,7 @@ public class RestaurantAdapter extends ArrayAdapter<Restaurant> {
                                 int position =restaurants.indexOf(currentRestaurant);
                                 restaurants.remove(position);
                                 notifyDataSetChanged();
+                                RestaurantListActivity.dbmaster.delete(currentRestaurant.getName(),context);
                             }
 
                         })
