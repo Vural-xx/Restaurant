@@ -4,6 +4,8 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Vector;
 
 import nl.hs_hague.restaurant.model.Restaurant;
@@ -64,11 +66,12 @@ public class DBMaster{
         }
     }
 /*This a particular search, like in the delete method you only need to send the name of the restaurant*/	
-    public void search(String naam, Context context) {
+    public Restaurant search(String naam, Context context) {
         DBHandler admin = new DBHandler(context,"admin", null, 1);
         Vector result = new Vector();
         String conv="";
         String results[];
+        Restaurant restaurant = null;
         SQLiteDatabase bd = admin.getWritableDatabase();
         try {
             Cursor cursor = bd.rawQuery("SELECT name,street,place,zip,image,desc FROM restaurants WHERE name ='"+naam+"'", null);
@@ -78,6 +81,8 @@ public class DBMaster{
             results = new String[12];
             conv = result.firstElement().toString();
             results = conv.split("-.-");
+            restaurant = new Restaurant(1,results[0],results[1],results[2],results[3],results[4],results[5]);
+
             cursor.close();
             bd.close();
             System.out.println("I found the restaurant");
@@ -85,6 +90,7 @@ public class DBMaster{
             System.out.println("I can not found that");
             e.printStackTrace();
         }
+        return restaurant;
     }
 	/*You need to send all the info about a restaurant when you update it.*/
     public void update(Restaurant restaurant, Context context) {
@@ -106,11 +112,11 @@ public class DBMaster{
         }
     }
 	/*This method must be called when we start the app, in order to show all the restaurants we have, just add them to the list view*/
-    public void generalsearch(Context context) {
+    public List<Restaurant> generalsearch(Context context) {
         DBHandler admin = new DBHandler(context,"admin", null, 1);
         Vector result1 = new Vector();
         String conv="";
-        String results[];
+        List<Restaurant> restaurants = new ArrayList<Restaurant>();
         SQLiteDatabase bd = admin.getWritableDatabase();
         try {
             Cursor cursor = bd.rawQuery("SELECT * FROM restaurants", null);
@@ -119,14 +125,21 @@ public class DBMaster{
             }
             cursor.close();
             bd.close();
+
             for(int i=0; i <result1.size(); i++){
-                /*Change this and just add the items to the list view*/System.out.println(result1.get(i).toString());
+                String [] results = new String[12];
+                conv = result1.get(i).toString();
+                results = conv.split("-.-");
+
+                restaurants.add(new Restaurant(1,results[0],results[1],results[2],results[3],results[4],results[5]));
+
             }
 
         }catch(Exception e){
            System.out.println("I can not do that");
             e.printStackTrace();
         }
+        return restaurants;
     }
 
 }
