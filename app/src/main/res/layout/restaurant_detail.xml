@@ -111,11 +111,13 @@
             android:textIsSelectable="true"
             tools:context="nl.hs_hague.restaurant.RestaurantDetailFragment" />
 
-
-
     </LinearLayout>
 
-
+    <Button
+        android:id="@+id/edit_restaurant"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Edit"/>
 
 </LinearLayout>
 

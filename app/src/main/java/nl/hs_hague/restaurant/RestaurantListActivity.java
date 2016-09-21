@@ -1,5 +1,7 @@
 package nl.hs_hague.restaurant;
 
+import android.app.SearchManager;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
@@ -10,6 +12,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -19,41 +22,31 @@ import java.util.List;
 import nl.hs_hague.restaurant.adapter.RestaurantAdapter;
 import nl.hs_hague.restaurant.model.Restaurant;
 
-/**
- * An activity representing a list of Restaurants. This activity
- * has different presentations for handset and tablet-size devices. On
- * handsets, the activity presents a list of items, which when touched,
- * lead to a {@link RestaurantDetailActivity} representing
- * item details. On tablets, the activity presents the list of items and
- * item details side-by-side using two vertical panes.
- */
 public class RestaurantListActivity extends AppCompatActivity {
 
-    /**
-     * Whether or not the activity is in two-pane mode, i.e. running on a tablet
-     * device.
-     */
     private boolean mTwoPane;
+
+    public static final DBMaster dbmaster = new DBMaster();
+    private ListView lvRestaurants;
+
+    private Context context = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_restaurant_list);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        toolbar.setTitle(getTitle());
-
         if (findViewById(R.id.restaurant_detail_container) != null) {
-            // The detail container view will be present only in the
-            // large-screen layouts (res/values-w900dp).
-            // If this view is present, then the
-            // activity should be in two-pane mode.
             mTwoPane = true;
         }
 
-        ListView lvRestaurants = (ListView) findViewById(R.id.lvRestaurants);
-        lvRestaurants.setAdapter(new RestaurantAdapter(this, R.layout.restaurant_list_content, generateDummyData()));
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitle("");
+        setSupportActionBar(toolbar);
+
+        lvRestaurants = (ListView) findViewById(R.id.lvRestaurants);
+        lvRestaurants.setAdapter(new RestaurantAdapter(this, R.layout.restaurant_list_content, dbmaster.generalsearch(this)));
+        context = this;
 
         lvRestaurants.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -77,13 +70,30 @@ public class RestaurantListActivity extends AppCompatActivity {
                 }
             }
         });
-    }
 
-    public List<Restaurant> generateDummyData(){
-        List<Restaurant> restaurants = new ArrayList<Restaurant>();
-        restaurants.add(new Restaurant(1, "Siezo", "Tasty", "Street 123", "123456","Place", null));
-        restaurants.add(new Restaurant(2, "KFC", "Tasty", "Street 123", "123456","Place", null));
-        return  restaurants;
+        Intent searchIntent = getIntent();
+        if(Intent.ACTION_SEARCH.equals(searchIntent.getAction())){
+            String query = searchIntent.getStringExtra(SearchManager.QUERY);
+            Toast.makeText(this,query, Toast.LENGTH_SHORT).show();
+        }
+
+        EditText searchText = (EditText) findViewById(R.id.mysearch);
+        searchText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(!hasFocus){
+                    EditText editText = (EditText) v;
+                    List<Restaurant> restaurants = new ArrayList<Restaurant>();
+                    if(editText.getText().toString().equals("")){
+                        restaurants = dbmaster.generalsearch(context);
+                    }else{
+                        restaurants.add(dbmaster.search(editText.getText().toString(),context));
+                    }
+
+                    lvRestaurants.setAdapter(new RestaurantAdapter(context, R.layout.restaurant_list_content, restaurants));
+                }
+            }
+        });
     }
 
     @Override
@@ -116,4 +126,5 @@ public class RestaurantListActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
 }
