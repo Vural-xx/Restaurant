@@ -2,6 +2,12 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <item android:id="@+id/search"
+        android:title="Search a restaurant"
+        android:icon="@drawable/search"
+        android:showAsAction="collapseActionView|ifRoom"
+        android:actionViewClass="android.widget.SearchView" />
+
     <item
         android:id="@+id/action_create"
         android:icon="@drawable/ic_create_restaurant"
