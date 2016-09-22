@@ -1,17 +1,29 @@
 package nl.hs_hague.restaurant;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.media.MediaScannerConnection;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
+
+import java.io.BufferedInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 
 import nl.hs_hague.restaurant.adapter.RestaurantAdapter;
 import nl.hs_hague.restaurant.model.Restaurant;
@@ -20,6 +32,9 @@ public class Dialog_add extends DialogFragment {
 
     private static int TAKE_PICTURE = 1;
     private static int SELECT_PICTURE = 2;
+    private View convertView;
+    String name;
+    private Bitmap image;
 
 
     @Override
@@ -28,9 +43,11 @@ public class Dialog_add extends DialogFragment {
         // Get the layout inflater
         LayoutInflater inflater = getActivity().getLayoutInflater();
 //        Button accept = (Button)getDialog().findViewById(R.id.accept);
-        View convertView = inflater.inflate(R.layout.activity_dialog_add, null);
+         convertView = inflater.inflate(R.layout.activity_dialog_add, null);
 
         Button pct = (Button) convertView.findViewById(R.id.btnPicture);
+        name = Environment.getExternalStorageDirectory() + "/test.jpg";
+
         pct.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -61,16 +78,16 @@ public class Dialog_add extends DialogFragment {
                         String street = editTextStreet.getText().toString();
                         String place = editTextPlace.getText().toString();
                         String zip = editTextZip.getText().toString();
-                        String path = editTextPath.getText().toString();
+                        //String path = editTextPath.getText().toString();
                         String comments = editTextComments.getText().toString();
 
-                        Restaurant myRestaurant = new Restaurant(1, name, street, place, zip, path, comments);
+                        Restaurant myRestaurant = new Restaurant(1, name, comments, place, street, zip,image);
                         DBMaster db = new DBMaster();
                         db.register(myRestaurant, getContext());
 
 
-                        ToasterClass toaster = new ToasterClass(getContext());
-                        toaster.addedToast(name, street, place, zip, path, comments);
+                       /* ToasterClass toaster = new ToasterClass(getContext());
+                        toaster.addedToast(name, street, place, zip, path, comments);*/
 
                         RestaurantListActivity restaurantListActivity = (RestaurantListActivity) getActivity();
                         restaurantListActivity.notifyListView();
@@ -87,4 +104,54 @@ public class Dialog_add extends DialogFragment {
                 });
         return builder.create();
     }
+
+    @Override public void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        if (requestCode == TAKE_PICTURE) {
+
+            if (data != null) {
+                /**
+                 *mostramos en el ImageView
+                 **/
+                if (data.hasExtra("data")) {
+                    ImageView iv = (ImageView)convertView.findViewById(R.id.imgView);
+                    iv.setImageBitmap((Bitmap) data.getParcelableExtra("data"));
+                    image = data.getParcelableExtra("data");
+
+
+                }
+
+            } else {
+                /**
+                 * buscamos y creamos el bitmap para el ImageView
+                 **/
+                ImageView iv = (ImageView)convertView.findViewById(R.id.imgView);
+                iv.setImageBitmap(BitmapFactory.decodeFile(name));
+                /**
+                 * guardar la imagen en la galería
+                 **/
+                new MediaScannerConnection.MediaScannerConnectionClient() {
+                    private MediaScannerConnection msc = null; {
+                        msc = new MediaScannerConnection(convertView.getContext(), this); msc.connect();
+                    }
+                    public void onMediaScannerConnected() {
+                        msc.scanFile(name, null);
+                    }
+                    public void onScanCompleted(String path, Uri uri) {
+                        msc.disconnect();
+                    }
+                };
+            }
+
+        } /*else if (requestCode == SELECT_PICTURE){
+            Uri selectedImage = data.getData();
+            InputStream is;
+            try {
+                is = convertView.getContentResolver().openInputStream(selectedImage);
+                BufferedInputStream bis = new BufferedInputStream(is);
+                Bitmap bitmap = BitmapFactory.decodeStream(bis);
+                ImageView iv = (ImageView)findViewById(R.id.imgView);
+                iv.setImageBitmap(bitmap);
+            } catch (FileNotFoundException e) {}*/
+        }
 }

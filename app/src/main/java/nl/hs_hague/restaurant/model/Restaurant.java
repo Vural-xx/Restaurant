@@ -1,5 +1,7 @@
 package nl.hs_hague.restaurant.model;
 
+import android.graphics.Bitmap;
+
 import java.io.Serializable;
 
 /**
@@ -12,14 +14,14 @@ public class Restaurant implements Serializable {
     private String place;
     private String street;
     private String zip;
-    private String image;
+    private Bitmap image;
 
 
     public Restaurant(int id, String name){
         this.id = id;
         this.name = name;
     }
-    public Restaurant(int id, String name, String description, String place, String street, String zip, String image){
+    public Restaurant(int id, String name, String description, String place, String street, String zip, Bitmap image){
         this.id = id;
         this.name = name;
         this.description = description;
@@ -77,11 +79,11 @@ public class Restaurant implements Serializable {
         this.zip = zip;
     }
 
-    public String getImage() {
+    public Bitmap getImage() {
         return image;
     }
 
-    public void setImage(String image) {
+    public void setImage(Bitmap image) {
         this.image = image;
     }
 }

@@ -15,13 +15,13 @@ public class DBHandler extends SQLiteOpenHelper{
 
     @Override
     public void onCreate(SQLiteDatabase db){
-        db.execSQL("CREATE TABLE restaurants (name text primary key,street text, place text, zip text, image text, desc text )");
+        db.execSQL("CREATE TABLE restaurants (name text primary key,street text, place text, zip text, desc text, image blob )");
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int previousVersion, int newVersion) {
         db.execSQL("drop table if exists restaurants");
-        db.execSQL("CREATE TABLE restaurants (name text primary key,street text, place text, zip text, image text, desc text )");
+        db.execSQL("CREATE TABLE restaurants (name text primary key,street text, place text, zip text, desc text, image blob)");
     }
     }
 

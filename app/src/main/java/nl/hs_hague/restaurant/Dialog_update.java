@@ -42,7 +42,7 @@ public class Dialog_update extends DialogFragment {
         editTextPlace.setText(current.getPlace());
         editTextZip.setText(current.getZip());
         editTextComments.setText(current.getDescription());
-        editTextPath.setText(current.getImage());
+        //editTextPath.setText(current.getImage());
 
         Toast.makeText(getContext(), current.getName(), Toast.LENGTH_LONG).show();
 
@@ -65,9 +65,9 @@ public class Dialog_update extends DialogFragment {
                         String path = editTextPath.getText().toString();
                         String comments = editTextComments.getText().toString();
 
-                        Restaurant myRestaurant = new Restaurant(1, name, street, place, zip, path, comments);
+                        /*Restaurant myRestaurant = new Restaurant(1, name, street, place, zip, path, comments);
                         DBMaster db = new DBMaster();
-                        db.update(myRestaurant, getContext());
+                        db.update(myRestaurant, getContext());*/
 
                     }
                 })

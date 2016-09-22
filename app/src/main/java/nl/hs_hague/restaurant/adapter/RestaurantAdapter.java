@@ -36,8 +36,12 @@ public class RestaurantAdapter extends ArrayAdapter<Restaurant> {
             convertView = inflater.inflate(resource, null);
         }
         TextView tvRestaurantName = (TextView) convertView.findViewById(R.id.restaurant_name);
+        ImageView imageView =(ImageView) convertView.findViewById(R.id.lvImage);
         final Restaurant currentRestaurant = (Restaurant) restaurants.get(position);
         tvRestaurantName.setText(currentRestaurant.getName());
+        if(currentRestaurant.getImage() != null){
+            imageView.setImageBitmap(currentRestaurant.getImage());
+        }
 
         ImageView trashCan=(ImageView) convertView.findViewById(R.id.lvImage2);
         trashCan.setOnClickListener(new View.OnClickListener() {
