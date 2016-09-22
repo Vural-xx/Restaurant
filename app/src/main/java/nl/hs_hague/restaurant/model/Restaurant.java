@@ -14,6 +14,7 @@ public class Restaurant implements Serializable {
     private String zip;
     private String image;
 
+
     public Restaurant(int id, String name){
         this.id = id;
         this.name = name;

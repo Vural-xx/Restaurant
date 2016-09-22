@@ -8,6 +8,7 @@ import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.widget.EditText;
 
+import nl.hs_hague.restaurant.adapter.RestaurantAdapter;
 import nl.hs_hague.restaurant.model.Restaurant;
 
 public class Dialog_add extends DialogFragment {
@@ -54,6 +55,7 @@ public class Dialog_add extends DialogFragment {
 
                         RestaurantListActivity restaurantListActivity = (RestaurantListActivity) getActivity();
                         restaurantListActivity.notifyListView();
+
 
 
                     }

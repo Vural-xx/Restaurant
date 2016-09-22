@@ -10,11 +10,10 @@
     tools:context="nl.hs_hague.restaurant.Dialog_add">
 
 
-    <EditText
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/editText1"
-        android:hint="Restaurant to update..."
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"

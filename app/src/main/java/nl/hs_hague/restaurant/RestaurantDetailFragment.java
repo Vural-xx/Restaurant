@@ -1,8 +1,10 @@
 package nl.hs_hague.restaurant;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -92,10 +94,22 @@ public class RestaurantDetailFragment extends Fragment {
         editButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(v.getContext(), "Edit Button clicked", Toast.LENGTH_SHORT).show();;
+                //Toast.makeText(v.getContext(), "Edit Button clicked", Toast.LENGTH_SHORT).show();;
+                DialogFragment newFragment = new Dialog_update();
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("restaurant", currentRestaurant);
+                newFragment.setArguments(bundle);
+                newFragment.show(getActivity().getSupportFragmentManager(), "i don't know what is this string parameter for.");
+               // Intent intent = new Intent(getContext(), Dialog_update.class);
+               // intent.putExtra("restaurant", currentRestaurant);
+               // RestaurantDetailFragment.this.startActivity(intent);
             }
         });
 
         return rootView;
+    }
+
+    public Restaurant getCurrentRestaurant() {
+        return this.currentRestaurant;
     }
 }
