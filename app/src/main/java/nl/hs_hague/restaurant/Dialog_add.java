@@ -2,17 +2,24 @@ package nl.hs_hague.restaurant;
 
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import nl.hs_hague.restaurant.adapter.RestaurantAdapter;
 import nl.hs_hague.restaurant.model.Restaurant;
 
 public class Dialog_add extends DialogFragment {
 
+    private static int TAKE_PICTURE = 1;
+    private static int SELECT_PICTURE = 2;
 
 
     @Override
@@ -21,11 +28,23 @@ public class Dialog_add extends DialogFragment {
         // Get the layout inflater
         LayoutInflater inflater = getActivity().getLayoutInflater();
 //        Button accept = (Button)getDialog().findViewById(R.id.accept);
+        View convertView = inflater.inflate(R.layout.activity_dialog_add, null);
 
+        Button pct = (Button) convertView.findViewById(R.id.btnPicture);
+        pct.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getContext(), "heeeee", Toast.LENGTH_LONG).show();
+                Intent intent =  new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                int code = TAKE_PICTURE;
+               startActivityForResult(intent, code);
+                //Toast.makeText(v.getContext(), "heeeee", Toast.LENGTH_LONG).show();
 
+            }
+        });
         // Inflate and set the layout for the dialog
         // Pass null as the parent view because its going in the dialog layout
-        builder.setView(inflater.inflate(R.layout.activity_dialog_add, null))
+        builder.setView(convertView)
                 // Add action buttons
                 .setPositiveButton(R.string.accept, new DialogInterface.OnClickListener() {
                     @Override

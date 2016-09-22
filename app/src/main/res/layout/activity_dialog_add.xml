@@ -51,17 +51,19 @@
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/editText5"
-        android:hint="path..."
-        android:layout_below="@+id/editText4"
-        android:layout_centerHorizontal="true" />
-
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:id="@+id/editText6"
         android:hint="comments..."
-        android:layout_below="@+id/editText5"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/editText4" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="radbtnFull"
+        android:id="@+id/btnPicture"
+        android:checked="false"
+        android:layout_below="@+id/editText6"
         android:layout_centerHorizontal="true" />
+
 
 </RelativeLayout>
