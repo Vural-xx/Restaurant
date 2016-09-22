@@ -6,11 +6,7 @@ import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
-<<<<<<< HEAD
-=======
 import android.view.View;
-import android.widget.Button;
->>>>>>> origin/master
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -72,7 +68,7 @@ public class Dialog_update extends DialogFragment {
                         Restaurant myRestaurant = new Restaurant(1, name, street, place, zip, path, comments);
                         DBMaster db = new DBMaster();
                         db.update(myRestaurant, getContext());
-                        
+
                     }
                 })
                 .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
