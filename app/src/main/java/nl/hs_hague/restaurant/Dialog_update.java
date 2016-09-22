@@ -1,14 +1,11 @@
 package nl.hs_hague.restaurant;
 
 import android.app.Dialog;
-import android.content.Context;
 import android.content.DialogInterface;
+import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.widget.Button;
 import android.widget.EditText;
 
 import nl.hs_hague.restaurant.model.Restaurant;
@@ -50,7 +47,6 @@ public class Dialog_update extends DialogFragment {
                         Restaurant myRestaurant = new Restaurant(1, name, street, place, zip, path, comments);
                         DBMaster db = new DBMaster();
                         db.update(myRestaurant, getContext());
-
 
                         ToasterClass toaster = new ToasterClass(getContext());
                         toaster.updatedToast(name, street, place, zip, path, comments);

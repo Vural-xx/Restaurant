@@ -103,6 +103,12 @@ public class RestaurantListActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        Toast.makeText(this, "Hello", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == android.R.id.home) {
@@ -125,6 +131,11 @@ public class RestaurantListActivity extends AppCompatActivity {
             newFragment.show(getSupportFragmentManager(), "i don't know what is this string parameter for.");
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public void notifyListView(){
+        RestaurantAdapter restaurantAdapter = (RestaurantAdapter) lvRestaurants.getAdapter();
+        restaurantAdapter.notifyDataSetChanged();
     }
 
 }
