@@ -105,7 +105,6 @@ public class RestaurantListActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        Toast.makeText(this, "Hello", Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -136,6 +135,8 @@ public class RestaurantListActivity extends AppCompatActivity {
 
     public void notifyListView(){
         RestaurantAdapter restaurantAdapter = (RestaurantAdapter) lvRestaurants.getAdapter();
+        List<Restaurant> restaurants = dbmaster.generalsearch(this);
+        lvRestaurants.setAdapter(new RestaurantAdapter(context, R.layout.restaurant_list_content, restaurants));
         restaurantAdapter.notifyDataSetChanged();
     }
 
