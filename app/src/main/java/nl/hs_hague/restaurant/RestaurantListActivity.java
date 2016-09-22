@@ -11,6 +11,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -39,6 +40,8 @@ public class RestaurantListActivity extends AppCompatActivity {
         if (findViewById(R.id.restaurant_detail_container) != null) {
             mTwoPane = true;
         }
+
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("");
@@ -105,7 +108,6 @@ public class RestaurantListActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        Toast.makeText(this, "Hello", Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -136,6 +138,8 @@ public class RestaurantListActivity extends AppCompatActivity {
 
     public void notifyListView(){
         RestaurantAdapter restaurantAdapter = (RestaurantAdapter) lvRestaurants.getAdapter();
+        List<Restaurant> restaurants = dbmaster.generalsearch(this);
+        lvRestaurants.setAdapter(new RestaurantAdapter(context, R.layout.restaurant_list_content, restaurants));
         restaurantAdapter.notifyDataSetChanged();
     }
 
