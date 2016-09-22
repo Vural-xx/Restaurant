@@ -4,5 +4,6 @@
     <string name="action_create_Restaurant">Create Restaurant</string>
     <string name="accept">Accept it</string>
     <string name="cancel">cancel it</string>
+    <string name="no_items">No Items</string>
 
 </resources>
