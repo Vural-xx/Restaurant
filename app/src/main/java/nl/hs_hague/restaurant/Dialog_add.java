@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.widget.Button;
 import android.widget.EditText;
 
+import nl.hs_hague.restaurant.adapter.RestaurantAdapter;
 import nl.hs_hague.restaurant.model.Restaurant;
 
 public class Dialog_add extends DialogFragment {
@@ -54,6 +55,7 @@ public class Dialog_add extends DialogFragment {
 
                         ToasterClass toaster = new ToasterClass(getContext());
                         toaster.addedToast(name, street, place, zip, path, comments);
+
 
 
                     }

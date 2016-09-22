@@ -8,8 +8,11 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import nl.hs_hague.restaurant.model.Restaurant;
 
@@ -22,22 +25,40 @@ public class Dialog_update extends DialogFragment {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         // Get the layout inflater
         LayoutInflater inflater = getActivity().getLayoutInflater();
-//        Button accept = (Button)getDialog().findViewById(R.id.accept);
+        View convertView = inflater.inflate(R.layout.activity_dialog_update, null);
+
+
+        Restaurant current = (Restaurant) getArguments().getSerializable("restaurant");
+
+
+        final TextView editTextName = (TextView) convertView.findViewById(R.id.editText1);
+        final EditText editTextStreet = (EditText)convertView.findViewById(R.id.editText2);
+        final EditText editTextPlace = (EditText)convertView.findViewById(R.id.editText3);
+        final EditText editTextZip = (EditText)convertView.findViewById(R.id.editText4);
+        final EditText editTextPath = (EditText)convertView.findViewById(R.id.editText5);
+        final EditText editTextComments = (EditText)convertView.findViewById(R.id.editText6);
+
+
+
+        editTextName.setText(current.getName());
+        editTextStreet.setText(current.getStreet());
+        editTextPlace.setText(current.getPlace());
+        editTextZip.setText(current.getZip());
+        editTextComments.setText(current.getDescription());
+        editTextPath.setText(current.getImage());
+
+        Toast.makeText(getContext(), current.getName(), Toast.LENGTH_LONG).show();
+
+
 
 
         // Inflate and set the layout for the dialog
         // Pass null as the parent view because its going in the dialog layout
-        builder.setView(inflater.inflate(R.layout.activity_dialog_add, null))
+        builder.setView(convertView)
                 // Add action buttons
                 .setPositiveButton(R.string.accept, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
-                        EditText editTextName = (EditText)getDialog().findViewById(R.id.editText1);
-                        EditText editTextStreet = (EditText)getDialog().findViewById(R.id.editText2);
-                        EditText editTextPlace = (EditText)getDialog().findViewById(R.id.editText3);
-                        EditText editTextZip = (EditText)getDialog().findViewById(R.id.editText4);
-                        EditText editTextPath = (EditText)getDialog().findViewById(R.id.editText5);
-                        EditText editTextComments = (EditText)getDialog().findViewById(R.id.editText6);
 
 
                         String name = editTextName.getText().toString();
@@ -52,8 +73,8 @@ public class Dialog_update extends DialogFragment {
                         db.update(myRestaurant, getContext());
 
 
-                        ToasterClass toaster = new ToasterClass(getContext());
-                        toaster.updatedToast(name, street, place, zip, path, comments);
+                        //ToasterClass toaster = new ToasterClass(getContext());
+                        //toaster.updatedToast(name, street, place, zip, path, comments);
 
 
                     }

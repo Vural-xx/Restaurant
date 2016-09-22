@@ -123,6 +123,7 @@ public class RestaurantListActivity extends AppCompatActivity {
             //Toast.makeText(this,"Menü clicked", Toast.LENGTH_SHORT).show();
             DialogFragment newFragment = new Dialog_add();
             newFragment.show(getSupportFragmentManager(), "i don't know what is this string parameter for.");
+
         }
         return super.onOptionsItemSelected(item);
     }
