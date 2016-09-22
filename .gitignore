@@ -127,3 +127,7 @@ hs_err_pid
 projectFilesBackup/.idea/workspace.xml
 
 build.gradle
+
+.idea/misc.xml
+
+build.gradle
